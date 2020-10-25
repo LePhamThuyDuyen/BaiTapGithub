@@ -11,7 +11,7 @@ AWS.config.update({
   secretAccessKey: process.env.SECRETACCESSKEY,
 });
 
-const tableName = 'dngStudents';
+const tableName = 'SinhVien';
 //const bucketName = 'baitapgiuaky';
 const bucketUrl = 'https://baitapgiuaky.s3-ap-southeast-1.amazonaws.com/';
 //const s3 = new AWS.S3();
@@ -55,16 +55,16 @@ router.get("/getonce/:id", async (req, res) => {
 router.post("/create", async (req, res) => {
   var oid = uid.v4()
   var dngStudent = {
-    'stname':req.body.stname,
-    'avatar':`${bucketUrl}${oid}.jpg`,
+    'ten':req.body.ten,
+    
     'id':oid,
-    'mssv':req.body.mssv,
-    'birth':req.body.birth
+    'maSV':req.body.maSV,
+    'namsinh':req.body.namsinh
   };
 
   var params = {
       TableName: tableName,
-      Item:  dngStudent
+      Item:  SinhVien
   };
 
   docClient.put(params, function (err, data) {
@@ -86,10 +86,10 @@ router.post("/update", async (req, res) => {
     Key: { "id": req.body.id },
     UpdateExpression: "set stname=:n,avatar=:a,mssv=:ms,birth=:b",
     ExpressionAttributeValues: {
-      ':n':req.body.stname,
-      ':a':req.body.avatar,
-      ':ms':req.body.mssv,
-      ':b':req.body.birth
+      ':n':req.body.ten,
+      
+      ':ms':req.body.maSV,
+      ':b':req.body.namsinh
     },
     ReturnValues: "UPDATED_NEW"
   };
